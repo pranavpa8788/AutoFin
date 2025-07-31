@@ -1,0 +1,15 @@
+{
+  "name": "autofin",
+  "version": "1.0.0",
+  "description": "A completely offline (serverless) locally hosted solution for one stop financial management including tracking expenditure, investment portfolio and for generating infographics",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@personal:pranavpa8788/AutoFin.git"
+  },
+  "author": "Pranav P A",
+  "license": "GPL-3.0"
+}
