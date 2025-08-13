@@ -2,7 +2,7 @@
 
 * Implement strong auth for db server
 
-* Replace base-ui popup with a scratch one
+* Prevent direction navigation to routes
 
 * Input validation for sources (almost done)
 
@@ -14,6 +14,7 @@
 
 * Check .gitignore 
 
-* 
-
 # DONE
+
+* Replace base-ui popup with a scratch one
+* Create tests

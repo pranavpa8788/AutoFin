@@ -1,45 +1,16 @@
-import { useState, useEffect } from "preact/hooks";
-import { useNavigate } from 'react-router-dom';
 import '../styles/add_transaction.css';
-import DatabaseService from "../services/database.service";
-
+import AddTransactionController from "../controller/add_transaction.controller";
 
 export default function AddTransaction() {
-    let navigate = useNavigate();
-
-    let [date, setDate] = useState<string>();
-    let [showDialog, setShowDialog] = useState(false);
-
-    useEffect(() => {
-        // validation db queries
-    }, []);
-
-    useEffect(() => {
-        // set the date field to today's date by default
-        let today = new Date();
-        let today_string = today.toISOString();
-        today_string = today_string.slice(0, 10)
-        setDate(today_string);
-    }, []);
-
-    async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        console.log(`handling submit`);
-        let response = await DatabaseService.getTransactions();
-
-        if (response.length == 0) {
-            const timer = setTimeout(() => setShowDialog(true), 1);
-            // setShowDialog(true);
-            // navigate("/");
-        }
-    }
+    const addTransactionController = new AddTransactionController();
+    addTransactionController.initHooks();
 
     return (
         <>
-        <div className={`${showDialog ? "blur-bg" : ""}`}>
-            <form onSubmit={submitHandler}>
+        <div className={`${addTransactionController.showDialog ? "blur-bg" : ""}`}>
+            <form onSubmit={addTransactionController.submitHandler}>
                 <label>
-                    Date: <input type="date" value={date} />
+                    Date: <input type="date" value={addTransactionController.date} />
                 </label>
 
 
@@ -61,7 +32,7 @@ export default function AddTransaction() {
             </form>
         </div>
 
-        <div className={`popup ${showDialog ? 'open' : ''}`}>
+        <div className={`popup ${addTransactionController.showDialog ? 'open' : ''}`}>
             <div>POPUP!</div>
         </div>
 

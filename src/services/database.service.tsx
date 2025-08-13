@@ -3,11 +3,19 @@ export default class DatabaseService {
 
     static async getTransactions(): Promise<any> {
         return fetch(this.db_url + "/transactions")
-        .then(res => {
-            let res_json = res.json();
-            console.log(`res: ${res_json}`);
-            return res_json;
-        })
+        .then(res => res.json())
+        .catch();
+    }
+
+    static async getSources(): Promise<any> {
+        return fetch(this.db_url + "/sources")
+        .then(res => res.json())
+        .catch();
+    }
+
+    static async getEntities(): Promise<any> {
+        return fetch(this.db_url + "/entities")
+        .then(res => res.json())
         .catch();
     }
 }
