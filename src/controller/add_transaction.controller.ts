@@ -1,10 +1,12 @@
 import { useState, useEffect, type Dispatch, type StateUpdater } from "preact/hooks";
-import { useNavigate, type NavigateFunction } from 'react-router-dom';
+import { useNavigate, useLocation, type NavigateFunction, type Location } from 'react-router-dom';
 import DatabaseService from "../services/database.service";
 import type { JSX } from "preact/jsx-runtime";
 
 export default class AddTransactionController {
     private navigate!: NavigateFunction;
+
+    private location!: Location;
 
     loading!: boolean;
     private setLoading!: Dispatch<StateUpdater<boolean>>;
@@ -18,6 +20,7 @@ export default class AddTransactionController {
     // istanbul ignore next
     initHooks() {
         this.navigate = useNavigate();
+        this.location = useLocation();
         [this.loading, this.setLoading] = useState(false);
         [this.date, this.setDate] = useState<string>("");
         [this.showDialog, this.setShowDialog] = useState(false);
@@ -32,13 +35,14 @@ export default class AddTransactionController {
             // set the date field to today's date by default
             this.updateDate();
         }, []);
+
+        this.validateNavigation();
     }
 
-    updateDate() {
-        let today = new Date();
-        let today_string = today.toISOString();
-        today_string = today_string.slice(0, 10)
-        this.setDate(today_string);
+    validateNavigation() {
+        if (this.location.state == null) {
+            this.navigate("/");
+        }
     }
 
     validateSources() {
@@ -56,6 +60,14 @@ export default class AddTransactionController {
             clearTimeout(animation_timer);
             clearTimeout(navigation_timer);
         }
+    }
+
+
+    updateDate() {
+        let today = new Date();
+        let today_string = today.toISOString();
+        today_string = today_string.slice(0, 10)
+        this.setDate(today_string);
     }
 
     // istanbul ignore next

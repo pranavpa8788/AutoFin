@@ -1,18 +1,14 @@
-import { useNavigate } from 'react-router-dom';
 import '../styles/tile.css';
 
-export function Tile(obj: any) {
-    console.log(`arg: ${JSON.stringify(obj)}`);
-    let navigate = useNavigate();
+type TileProps = {
+    onClick: () => any; 
+    children?: React.ReactNode;
+}
 
-    function addTransactionHandler() {
-        console.log(`add transaction`);
-        navigate("/add-transaction");
-    };
-
+export function Tile({ onClick, children }: TileProps) {
     return (
-        <button class="tile" onClick={addTransactionHandler}>
-            {obj.children}
+        <button class="tile" onClick={onClick}>
+            {children}
         </button>
     );
 }

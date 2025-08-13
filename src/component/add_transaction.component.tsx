@@ -1,9 +1,14 @@
+import { useLocation } from 'react-router-dom';
 import '../styles/add_transaction.css';
 import AddTransactionController from "../controller/add_transaction.controller";
 
 export default function AddTransaction() {
     const addTransactionController = new AddTransactionController();
     addTransactionController.initHooks();
+
+    const location = useLocation();
+
+    console.log(`arg: ${JSON.stringify(location)}`);
 
     return (
         <>
