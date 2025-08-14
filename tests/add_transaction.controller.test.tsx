@@ -1,60 +1,120 @@
 import AddTransactionController from "../src/controller/add_transaction.controller";
 import DatabaseService from "../src/services/database.service";
+import { useLocation } from "react-router-dom";
 
+let addTransactionController: AddTransactionController;
 
-const addTransactionController = new AddTransactionController();
-
-test("updateDate", () => {
-    let date = '';
-    
-    (addTransactionController as any).setDate = (val: string) => { date = val; };
-    
-    addTransactionController.updateDate();
-    
-    const today = new Date();
-    const todayStr = today.toISOString().slice(0, 10);
-    
-    expect(date).toMatch(todayStr);
+beforeEach(() => {
+    addTransactionController = new AddTransactionController();
 });
 
-test("validateSources: Empty array response", async () => {
-    jest.useFakeTimers();
+jest.mock("react-router-dom", () => ({
+    ...jest.requireActual("react-router-dom"),
+    useLocation: jest.fn()
+}));
 
-    jest.spyOn(DatabaseService, "getTransactions").mockResolvedValue([]);
-    (addTransactionController as any).setShowDialog = jest.fn();
-    (addTransactionController as any).navigate = jest.fn();
+describe("AddTransactionControllerTests", () => {
 
-    const cleanup = addTransactionController.validateSources();
+    describe("validateNavigation", () => {
 
-    await Promise.resolve();
+        test("validateNavigation: With invalid location.state", () => {
+            (useLocation as jest.Mock).mockReturnValue({
+                state: "invalid"
+            });
 
-    jest.advanceTimersByTime(200);
-    expect((addTransactionController as any).setShowDialog).toHaveBeenCalledWith(true);
+            (addTransactionController as any).navigate = jest.fn();
+            (addTransactionController as any).location = useLocation();
 
-    jest.advanceTimersByTime(2800);
-    expect((addTransactionController as any).navigate).toHaveBeenCalledWith("/");
+            addTransactionController.validateNavigation();
 
-    cleanup();
+            expect((addTransactionController as any).navigate).toHaveBeenCalledWith("/");
+        });
 
-    jest.useRealTimers();
-});
+        test("validateNavigation: With null location.state", () => {
+            (useLocation as jest.Mock).mockReturnValue({
+                state: null
+            });
 
-test("validateSources: Non-empty array response", async() => {
-    jest.useFakeTimers();
+            (addTransactionController as any).navigate = jest.fn();
+            (addTransactionController as any).location = useLocation();
 
-    jest.spyOn(DatabaseService, "getTransactions").mockResolvedValue([{ id: 1 }]);
+            addTransactionController.validateNavigation();
 
-    (addTransactionController as any).setShowDialog = jest.fn();
-    (addTransactionController as any).navigate = jest.fn();
+            expect((addTransactionController as any).navigate).toHaveBeenCalledWith("/");
+        });
 
-    const cleanup = addTransactionController.validateSources();
+        test("validateNavigation: With valid location.state", () => {
+            (useLocation as jest.Mock).mockReturnValue({
+                state: "homepage"
+            });
 
-    await Promise.resolve();
+            (addTransactionController as any).navigate = jest.fn();
+            (addTransactionController as any).location = useLocation();
 
-    expect((addTransactionController as any).setShowDialog).not.toHaveBeenCalled();
-    expect((addTransactionController as any).navigate).not.toHaveBeenCalled();
+            addTransactionController.validateNavigation();
 
-    cleanup();
+            expect((addTransactionController as any).navigate).not.toHaveBeenCalled();
+        });
 
-    jest.useRealTimers();
+    });
+
+    describe("validateSources", () => {
+
+        test("validateSources: Non-empty array response", async() => {
+            jest.useFakeTimers();
+
+            jest.spyOn(DatabaseService, "getTransactions").mockResolvedValue([{ id: 1 }]);
+
+            (addTransactionController as any).setShowDialog = jest.fn();
+            (addTransactionController as any).navigate = jest.fn();
+
+            const cleanup = addTransactionController.validateSources();
+
+            await Promise.resolve();
+
+            expect((addTransactionController as any).setShowDialog).not.toHaveBeenCalled();
+            expect((addTransactionController as any).navigate).not.toHaveBeenCalled();
+
+            cleanup();
+
+            jest.useRealTimers();
+        });
+
+        test("validateSources: Empty array response", async () => {
+            jest.useFakeTimers();
+
+            jest.spyOn(DatabaseService, "getTransactions").mockResolvedValue([]);
+            (addTransactionController as any).setShowDialog = jest.fn();
+            (addTransactionController as any).navigate = jest.fn();
+
+            const cleanup = addTransactionController.validateSources();
+
+            await Promise.resolve();
+
+            jest.advanceTimersByTime(200);
+            expect((addTransactionController as any).setShowDialog).toHaveBeenCalledWith(true);
+
+            jest.advanceTimersByTime(2800);
+            expect((addTransactionController as any).navigate).toHaveBeenCalledWith("/");
+
+            cleanup();
+
+            jest.useRealTimers();
+        });
+
+    });
+
+    test("updateDate", () => {
+        let date = '';
+        
+        (addTransactionController as any).setDate = (val: string) => { date = val; };
+        
+        addTransactionController.updateDate();
+        
+        const today = new Date();
+        const todayStr = today.toISOString().slice(0, 10);
+        
+        expect(date).toMatch(todayStr);
+    });
+
 });

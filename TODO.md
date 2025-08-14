@@ -6,9 +6,13 @@
 
 * Merge main and app into one if possible (and home?)
 
-* Implement strong auth for db server
+* Security and auth implementation before any data enters the system (use dummy data for testing)
 
 * Check .gitignore 
+
+# ADVANCED
+
+* Prevent direct API calls
 
 # DONE
 

@@ -40,7 +40,7 @@ export default class AddTransactionController {
     }
 
     validateNavigation() {
-        if (this.location.state == null) {
+        if (this.location.state != "homepage") {
             this.navigate("/");
         }
     }
