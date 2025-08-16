@@ -13,6 +13,12 @@ export default class DatabaseService {
         .catch();
     }
 
+    static async getSourcesName(): Promise<any> {
+        return fetch(this.db_url + "/sources?fields=name, type")
+        .then(res => res.json())
+        .catch();
+    }
+
     static async getEntities(): Promise<any> {
         return fetch(this.db_url + "/entities")
         .then(res => res.json())

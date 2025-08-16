@@ -1,5 +1,7 @@
 # TODO
 
+* Load sources into select
+
 * Add "add" buttons for categories and entities
 
 * Add transaction to DB

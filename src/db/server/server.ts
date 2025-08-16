@@ -28,7 +28,25 @@ initDB().then((db) => {
     });
 
     app.get('/sources', async (req, res) => {
-        const rows = await db.all("SELECT * FROM sources");
+        const allowedFields = ["name", "type"];
+        let selectedFields = allowedFields;
+        const { fields } = req.query;
+
+        let query = "SELECT * FROM sources";
+
+        if (fields) {
+            let requestedFields = (fields as string).split(",").map(s => s.trim());
+            selectedFields = requestedFields.filter(f => allowedFields.includes(f));
+
+            if (selectedFields.length == 0) {
+                return res.status(400).json({ error: "Invalid fields provided" });
+            }
+
+            query = `SELECT ${selectedFields} FROM SOURCES`; 
+        }
+
+        const rows = await db.all(query);
+
         res.json(rows);
     })
 

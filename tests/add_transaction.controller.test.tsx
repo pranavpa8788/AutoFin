@@ -63,7 +63,7 @@ describe("AddTransactionControllerTests", () => {
         test("validateSources: Non-empty array response", async() => {
             jest.useFakeTimers();
 
-            jest.spyOn(DatabaseService, "getTransactions").mockResolvedValue([{ id: 1 }]);
+            jest.spyOn(DatabaseService, "getSources").mockResolvedValue([{ id: 1 }]);
 
             (addTransactionController as any).setShowDialog = jest.fn();
             (addTransactionController as any).navigate = jest.fn();
@@ -83,7 +83,7 @@ describe("AddTransactionControllerTests", () => {
         test("validateSources: Empty array response", async () => {
             jest.useFakeTimers();
 
-            jest.spyOn(DatabaseService, "getTransactions").mockResolvedValue([]);
+            jest.spyOn(DatabaseService, "getSources").mockResolvedValue([]);
             (addTransactionController as any).setShowDialog = jest.fn();
             (addTransactionController as any).navigate = jest.fn();
 

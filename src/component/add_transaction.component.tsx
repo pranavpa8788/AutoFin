@@ -30,6 +30,7 @@ export default function AddTransaction() {
                 <label>
                     Source:
                     <select>
+                        {addTransactionController.sources}
                     </select>
                 </label>
 
