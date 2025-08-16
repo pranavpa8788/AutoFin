@@ -2,6 +2,7 @@ import { useState, useEffect, type Dispatch, type StateUpdater } from "preact/ho
 import { useNavigate, useLocation, type NavigateFunction, type Location } from 'react-router-dom';
 import DatabaseService from "../services/database.service";
 import type { VNode as Element } from "preact";
+import type { JSX } from "preact/jsx-runtime";
 
 export default class AddTransactionController {
     private navigate!: NavigateFunction;
@@ -75,7 +76,6 @@ export default class AddTransactionController {
             clearTimeout(navigation_timer);
         }
     }
-
 
     updateDate() {
         let today = new Date();

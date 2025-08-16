@@ -6,6 +6,7 @@ let addTransactionController: AddTransactionController;
 
 beforeEach(() => {
     addTransactionController = new AddTransactionController();
+    (addTransactionController as any).setSources = jest.fn();
 });
 
 jest.mock("react-router-dom", () => ({
@@ -63,7 +64,9 @@ describe("AddTransactionControllerTests", () => {
         test("validateSources: Non-empty array response", async() => {
             jest.useFakeTimers();
 
-            jest.spyOn(DatabaseService, "getSources").mockResolvedValue([{ id: 1 }]);
+            let sources = [{ name: "Bank A" }, { name: "Bank B" }];
+
+            jest.spyOn(DatabaseService, "getSources").mockResolvedValue(sources);
 
             (addTransactionController as any).setShowDialog = jest.fn();
             (addTransactionController as any).navigate = jest.fn();
@@ -74,6 +77,24 @@ describe("AddTransactionControllerTests", () => {
 
             expect((addTransactionController as any).setShowDialog).not.toHaveBeenCalled();
             expect((addTransactionController as any).navigate).not.toHaveBeenCalled();
+
+            // let sourcesName = sources.map((source) => {
+            //     return <option key={source.name}>{source.name}</option>;
+            // });
+                
+            // expect((addTransactionController as any).setSources).toHaveBeenCalledWith(sourcesName);
+            expect((addTransactionController as any).setSources).toHaveBeenCalledTimes(1);
+
+            // const [actualSources] = ((addTransactionController as any).setSources as jest.Mock);
+            const [actualSources] = (addTransactionController as any).setSources.mock.calls[0];
+
+            expect(actualSources).toHaveLength(sources.length);
+
+            actualSources.forEach((element: any, index: number) => {
+                expect(element.key).toBe(sources[index].name);
+                expect(element.props.children).toBe(sources[index].name);
+                expect(element.type).toBe("option");
+            });
 
             cleanup();
 
