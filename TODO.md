@@ -1,10 +1,10 @@
 # TODO
 
-* Load sources into select
-
 * Add "add" buttons for categories and entities
 
 * Add transaction to DB
+
+* Input validations for add transaction
 
 * Merge main and app into one if possible (and home?)
 
@@ -23,3 +23,4 @@
 * Clean up logic into separate controllers
 * Input validation for sources (almost done)
 * Prevent direction navigation to routes
+* Load sources into select
