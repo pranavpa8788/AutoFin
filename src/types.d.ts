@@ -14,4 +14,13 @@ declare global {
         name: String;
         type: String;
     }
+
+    type CategoryName = {
+        name: String;
+    }
+
+    type EntityName = {
+        name: String;
+    }
+    type Setter<T> = Dispatch<StateUpdater<T>>
 }
