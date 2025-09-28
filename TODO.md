@@ -1,5 +1,7 @@
 # TODO
 
+* Health check for every page (make implementation as easy as possible somehow)
+
 * Add "add" buttons for categories and entities
 
 * Add transaction to DB
@@ -24,3 +26,4 @@
 * Input validation for sources (almost done)
 * Prevent direction navigation to routes
 * Load sources into select
+* Disable app if db server is not running and show message (done for home page)

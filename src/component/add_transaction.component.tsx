@@ -34,6 +34,48 @@ export default function AddTransaction() {
                     </select>
                 </label>
 
+                <label>
+                    Amount: <input type="number" />
+                </label>
+
+                <label>
+                    Direction:
+                    <select>
+                        <option key="credit">Credit</option>
+                        <option key="debit">Debit</option>
+                    </select>
+                </label>
+
+                <label>
+                    Category:
+                    <select>
+                        {addTransactionController.categories}
+                    </select>
+                </label>
+
+                <label>
+                    Description: <input type="text" />
+                </label>
+
+                <label>
+                    Lend/Borrow: <input type="checkbox" onChange={addTransactionController.lendOrBorrowHandler.bind(addTransactionController)} />
+                </label>
+
+                {addTransactionController.lendOrBorrow &&
+                    <>
+                        <label>
+                            Entity:
+                            <select>
+                                {addTransactionController.entities}
+                            </select>
+                        </label>
+
+                        <label>
+                            DueDate: <input type="date" />
+                        </label>
+                    </>
+                }
+
                 <button type="submit">Submit</button>
             </form>
         </div>

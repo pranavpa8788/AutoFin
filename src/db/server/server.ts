@@ -22,43 +22,76 @@ async function initDB() {
 initDB().then((db) => {
     console.log(`Successfully connected to db`);
 
+    function fieldValidator(allowedFields: Array<string>, fields: string) {
+        let selectedFields: Array<string> = [];
+
+        if (fields) {
+            let requestedFields = fields.split(",").map(s => s.trim());
+            selectedFields = requestedFields.filter(f => allowedFields.includes(f));
+        }
+
+        return selectedFields;
+    }
+
     app.get('/transactions', async (req, res) => {
         const rows = await db.all("SELECT * FROM transactions");
         res.json(rows);
     });
 
-    app.get('/sources', async (req, res) => {
+    app.get('/sources', (req, res) => {
         const allowedFields = ["name", "type"];
-        let selectedFields = allowedFields;
-        const { fields } = req.query;
+        const { fields } = req.query as { fields: string };
 
         let query = "SELECT * FROM sources";
 
-        if (fields) {
-            let requestedFields = (fields as string).split(",").map(s => s.trim());
-            selectedFields = requestedFields.filter(f => allowedFields.includes(f));
+        const selectedFields = fieldValidator(allowedFields, fields);
 
-            if (selectedFields.length == 0) {
-                return res.status(400).json({ error: "Invalid fields provided" });
-            }
-
-            query = `SELECT ${selectedFields} FROM SOURCES`; 
+        if (selectedFields) {
+            query = `SELECT ${selectedFields} FROM sources`; 
         }
 
-        const rows = await db.all(query);
-
-        res.json(rows);
+        db.all(query).then((rows) => {
+            return res.json(rows);
+        }).catch();
     })
 
-    app.get('/categories', async (req, res) => {
-        const rows = await db.all("SELECT * FROM categories");
-        res.json(rows);
+    app.get('/categories', (req, res) => {
+        const allowedFields = ["name"];
+        const { fields } = req.query as { fields: string };
+
+        let query = "SELECT * FROM categories"
+
+        const selectedFields = fieldValidator(allowedFields, fields);
+
+        if (selectedFields) {
+            query = `SELECT ${selectedFields} FROM categories`;
+        }
+
+        db.all(query).then((rows) => {
+            return res.json(rows);
+        });
     })
 
     app.get('/entities', async (req, res) => {
-        const rows = await db.all("SELECT * FROM categories");
-        res.json(rows);
+        const allowedFields = ["name"];
+        const { fields } = req.query as { fields: string };
+
+        let query = "SELECT * FROM entities";
+
+        const selectedFields = fieldValidator(allowedFields, fields);
+
+        if (selectedFields) {
+            query = `SELECT ${selectedFields} FROM entities`;
+        }
+
+        db.all(query).then((rows) => {
+            return res.json(rows);
+        });
     })
+
+    app.get('/health', async (req, res) => {
+        return res.status(200).send({ status: 'ok' });
+    });
 
     app.listen(port, () => {
         console.log(`DB server is running...`);

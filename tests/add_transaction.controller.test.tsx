@@ -2,11 +2,17 @@ import AddTransactionController from "../src/controller/add_transaction.controll
 import DatabaseService from "../src/services/database.service";
 import { useLocation } from "react-router-dom";
 
-let addTransactionController: AddTransactionController;
+let addTransactionController: any;
+
+let sourcesName: Array<SourceName> = [{ name: "Bank A", type: "" }, { name: "Bank B", type: "" }];
+let categoriesName: Array<CategoryName> = [{ name: "Food" }, { name: "Travel" }];
+let entitiesName: Array<EntityName> = [{ name: "Bob" }, { name: "Alex" }];
 
 beforeEach(() => {
     addTransactionController = new AddTransactionController();
-    (addTransactionController as any).setSources = jest.fn();
+    addTransactionController.setSources = jest.fn();
+    addTransactionController.setCategories = jest.fn();
+    addTransactionController.setEntities = jest.fn();
 });
 
 jest.mock("react-router-dom", () => ({
@@ -23,12 +29,12 @@ describe("AddTransactionControllerTests", () => {
                 state: "invalid"
             });
 
-            (addTransactionController as any).navigate = jest.fn();
-            (addTransactionController as any).location = useLocation();
+            addTransactionController.navigate = jest.fn();
+            addTransactionController.location = useLocation();
 
             addTransactionController.validateNavigation();
 
-            expect((addTransactionController as any).navigate).toHaveBeenCalledWith("/");
+            expect(addTransactionController.navigate).toHaveBeenCalledWith("/");
         });
 
         test("validateNavigation: With null location.state", () => {
@@ -36,12 +42,12 @@ describe("AddTransactionControllerTests", () => {
                 state: null
             });
 
-            (addTransactionController as any).navigate = jest.fn();
-            (addTransactionController as any).location = useLocation();
+            addTransactionController.navigate = jest.fn();
+            addTransactionController.location = useLocation();
 
             addTransactionController.validateNavigation();
 
-            expect((addTransactionController as any).navigate).toHaveBeenCalledWith("/");
+            expect(addTransactionController.navigate).toHaveBeenCalledWith("/");
         });
 
         test("validateNavigation: With valid location.state", () => {
@@ -49,12 +55,12 @@ describe("AddTransactionControllerTests", () => {
                 state: "homepage"
             });
 
-            (addTransactionController as any).navigate = jest.fn();
-            (addTransactionController as any).location = useLocation();
+            addTransactionController.navigate = jest.fn();
+            addTransactionController.location = useLocation();
 
             addTransactionController.validateNavigation();
 
-            expect((addTransactionController as any).navigate).not.toHaveBeenCalled();
+            expect(addTransactionController.navigate).not.toHaveBeenCalled();
         });
 
     });
@@ -64,38 +70,15 @@ describe("AddTransactionControllerTests", () => {
         test("validateSources: Non-empty array response", async() => {
             jest.useFakeTimers();
 
-            let sources = [{ name: "Bank A" }, { name: "Bank B" }];
 
-            jest.spyOn(DatabaseService, "getSources").mockResolvedValue(sources);
+            addTransactionController.setShowDialog = jest.fn();
+            addTransactionController.navigate = jest.fn();
 
-            (addTransactionController as any).setShowDialog = jest.fn();
-            (addTransactionController as any).navigate = jest.fn();
+            const cleanup = addTransactionController.validateSources(sourcesName);
 
-            const cleanup = addTransactionController.validateSources();
-
-            await Promise.resolve();
-
-            expect((addTransactionController as any).setShowDialog).not.toHaveBeenCalled();
-            expect((addTransactionController as any).navigate).not.toHaveBeenCalled();
-
-            // let sourcesName = sources.map((source) => {
-            //     return <option key={source.name}>{source.name}</option>;
-            // });
+            expect(addTransactionController.setShowDialog).not.toHaveBeenCalled();
+            expect(addTransactionController.navigate).not.toHaveBeenCalled();
                 
-            // expect((addTransactionController as any).setSources).toHaveBeenCalledWith(sourcesName);
-            expect((addTransactionController as any).setSources).toHaveBeenCalledTimes(1);
-
-            // const [actualSources] = ((addTransactionController as any).setSources as jest.Mock);
-            const [actualSources] = (addTransactionController as any).setSources.mock.calls[0];
-
-            expect(actualSources).toHaveLength(sources.length);
-
-            actualSources.forEach((element: any, index: number) => {
-                expect(element.key).toBe(sources[index].name);
-                expect(element.props.children).toBe(sources[index].name);
-                expect(element.type).toBe("option");
-            });
-
             cleanup();
 
             jest.useRealTimers();
@@ -104,19 +87,16 @@ describe("AddTransactionControllerTests", () => {
         test("validateSources: Empty array response", async () => {
             jest.useFakeTimers();
 
-            jest.spyOn(DatabaseService, "getSources").mockResolvedValue([]);
-            (addTransactionController as any).setShowDialog = jest.fn();
-            (addTransactionController as any).navigate = jest.fn();
+            addTransactionController.setShowDialog = jest.fn();
+            addTransactionController.navigate = jest.fn();
 
-            const cleanup = addTransactionController.validateSources();
-
-            await Promise.resolve();
+            const cleanup = addTransactionController.validateSources([]);
 
             jest.advanceTimersByTime(200);
-            expect((addTransactionController as any).setShowDialog).toHaveBeenCalledWith(true);
+            expect(addTransactionController.setShowDialog).toHaveBeenCalledWith(true);
 
             jest.advanceTimersByTime(2800);
-            expect((addTransactionController as any).navigate).toHaveBeenCalledWith("/");
+            expect(addTransactionController.navigate).toHaveBeenCalledWith("/");
 
             cleanup();
 
@@ -128,7 +108,7 @@ describe("AddTransactionControllerTests", () => {
     test("updateDate", () => {
         let date = '';
         
-        (addTransactionController as any).setDate = (val: string) => { date = val; };
+        addTransactionController.setDate = (val: string) => { date = val; };
         
         addTransactionController.updateDate();
         
@@ -136,6 +116,37 @@ describe("AddTransactionControllerTests", () => {
         const todayStr = today.toISOString().slice(0, 10);
         
         expect(date).toMatch(todayStr);
+    });
+
+    test("loadFromDB", async () => {
+        addTransactionController.setLoading = jest.fn();
+
+        DatabaseService.getSourcesName = jest.fn().mockResolvedValue(sourcesName);
+        DatabaseService.getCategoriesName = jest.fn().mockResolvedValue(categoriesName);
+        DatabaseService.getEntitiesName = jest.fn().mockResolvedValue(entitiesName);
+        addTransactionController.validateSources = jest.fn();
+
+        await addTransactionController.loadFromDB();
+
+        expect(addTransactionController.setLoading).toHaveBeenCalledWith(true);
+
+        expect(DatabaseService.getSourcesName).toHaveBeenCalledTimes(1);
+        expect(addTransactionController.validateSources).toHaveBeenCalledWith(sourcesName);
+
+        let sourcesNameMapped = addTransactionController.mapSourcesToElement(sourcesName);
+        const [actualSources] = addTransactionController.setSources.mock.calls[0];
+        expect(actualSources).toHaveLength(sourcesNameMapped.length);
+        actualSources.forEach((element: any, index: number) => {
+            expect(element.key).toBe(sourcesNameMapped[index].key);
+            expect(element.props.children).toBe(sourcesNameMapped[index].props.children);
+            expect(element.type).toBe("option");
+        });
+
+        expect(addTransactionController.setCategories).toHaveBeenCalledWith(categoriesName);
+
+        expect(addTransactionController.setEntities).toHaveBeenCalledWith(entitiesName);
+
+        expect(addTransactionController.setLoading).toHaveBeenCalledWith(false);
     });
 
 });

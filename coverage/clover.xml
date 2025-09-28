@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1755335453960" clover="3.2.0">
-  <project timestamp="1755335453960" name="All files">
-    <metrics statements="31" coveredstatements="23" conditionals="4" coveredconditionals="4" methods="17" coveredmethods="9" elements="52" coveredelements="36" complexity="0" loc="31" ncloc="31" packages="2" files="2" classes="2"/>
+<coverage generated="1755609661782" clover="3.2.0">
+  <project timestamp="1755609661782" name="All files">
+    <metrics statements="49" coveredstatements="30" conditionals="6" coveredconditionals="4" methods="24" coveredmethods="9" elements="79" coveredelements="43" complexity="0" loc="49" ncloc="49" packages="2" files="2" classes="2"/>
     <package name="controller">
-      <metrics statements="21" coveredstatements="21" conditionals="4" coveredconditionals="4" methods="9" coveredmethods="9"/>
+      <metrics statements="33" coveredstatements="28" conditionals="6" coveredconditionals="4" methods="10" coveredmethods="9"/>
       <file name="add_transaction.controller.tsx" path="C:\Users\I585624\OneDrive - SAP SE\Documents\Projects\autofin\src\controller\add_transaction.controller.tsx">
-        <metrics statements="21" coveredstatements="21" conditionals="4" coveredconditionals="4" methods="9" coveredmethods="9"/>
+        <metrics statements="33" coveredstatements="28" conditionals="6" coveredconditionals="4" methods="10" coveredmethods="9"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
-        <line num="50" count="2" type="stmt"/>
-        <line num="55" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="56" count="2" type="stmt"/>
-        <line num="64" count="2" type="stmt"/>
-        <line num="65" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
         <line num="66" count="1" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
         <line num="69" count="1" type="stmt"/>
         <line num="70" count="1" type="stmt"/>
-        <line num="74" count="2" type="stmt"/>
-        <line num="75" count="2" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
         <line num="76" count="2" type="stmt"/>
-        <line num="81" count="1" type="stmt"/>
-        <line num="82" count="1" type="stmt"/>
-        <line num="83" count="1" type="stmt"/>
-        <line num="84" count="1" type="stmt"/>
+        <line num="77" count="4" type="stmt"/>
+        <line num="82" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="83" count="2" type="stmt"/>
+        <line num="91" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="92" count="1" type="stmt"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="96" count="2" type="stmt"/>
+        <line num="97" count="2" type="stmt"/>
+        <line num="98" count="2" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="104" count="1" type="stmt"/>
+        <line num="105" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="118" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
       </file>
     </package>
     <package name="services">
-      <metrics statements="10" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
+      <metrics statements="16" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="14" coveredmethods="0"/>
       <file name="database.service.tsx" path="C:\Users\I585624\OneDrive - SAP SE\Documents\Projects\autofin\src\services\database.service.tsx">
-        <metrics statements="10" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <metrics statements="16" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="14" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -43,6 +55,12 @@
         <line num="18" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
       </file>
     </package>
   </project>
