@@ -1,5 +1,7 @@
 # TODO
 
+* Stop tracking db.sqlite and start tracking schema.sql as repo is public now
+
 * Health check for every page (make implementation as easy as possible somehow)
 
 * Add "add" buttons for categories and entities
