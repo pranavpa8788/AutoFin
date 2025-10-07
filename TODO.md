@@ -1,7 +1,5 @@
 # TODO
 
-* Stop tracking db.sqlite and start tracking schema.sql as repo is public now
-
 * Health check for every page (make implementation as easy as possible somehow)
 
 * Add "add" buttons for categories and entities
@@ -29,3 +27,4 @@
 * Prevent direction navigation to routes
 * Load sources into select
 * Disable app if db server is not running and show message (done for home page)
+* Stop tracking db.sqlite and start tracking schema.sql as repo is public now
