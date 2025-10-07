@@ -7,7 +7,7 @@
         "build": "tsc -b && vite build",
         "preview": "vite preview",
         "test": "jest",
-        "test:coverage": "jest --coverage"
+        "coverage": "jest --coverage"
     },
     "dependencies": {
         "preact": "^10.27.0",
